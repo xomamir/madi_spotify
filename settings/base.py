@@ -3,21 +3,31 @@ import os
 import sys
 from pathlib import Path
 
+# Third party
+from decouple import config
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
-SECRET_KEY = 'django-insecure-#1s=q0+gzub*z20q767ifpeicvrww_ve@yv%r+#phlxs8a!(-z'
-DEBUG = True
+SECRET_KEY = config('SECRET_KEY', cast=str)
+DEBUG = config('DEBUG', cast=bool)
+
 ALLOWED_HOSTS = []
 
-INSTALLED_APPS = [
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.staticfiles'
 ]
+PROJECT_APPS = [
+    'auths.apps.AuthsConfig',
+    'main.apps.MainConfig'
+]
+INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -49,7 +59,7 @@ WSGI_APPLICATION = 'settings.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': config('DB_NAME', cast=str)
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
