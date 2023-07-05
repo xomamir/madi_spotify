@@ -23,6 +23,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles'
 ]
 PROJECT_APPS = [
+    'abstracts.apps.AbstractsConfig',
     'auths.apps.AuthsConfig',
     'main.apps.MainConfig'
 ]
