@@ -9,7 +9,9 @@ from .models import (
     Album,
     Artist,
     Band,
-    Country
+    Country,
+    Genre,
+    Song
 )
 
 
@@ -65,3 +67,16 @@ class AlbumAdmin(admin.ModelAdmin):
             return self.readonly_fields
 
         return self.readonly_fields + ('release_date',)
+
+
+@admin.register(Song)
+class SongAdmin(admin.ModelAdmin):
+    readonly_fields: tuple[str, ...] = (
+        'duration',
+        'times_played'
+    )
+
+
+@admin.register(Genre)
+class GenreAdmin(admin.ModelAdmin):
+    pass
