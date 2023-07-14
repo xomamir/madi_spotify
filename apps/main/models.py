@@ -35,7 +35,7 @@ class Band(AbsctractDateTime):
         verbose_name='фоловеры',
         default=0
     )
-    country = models.OneToOneField(
+    country = models.ForeignKey(
         to=Country,
         on_delete=models.PROTECT,
         verbose_name='страна'
