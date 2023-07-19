@@ -2,6 +2,7 @@
 from typing import Any
 
 # Django
+from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -25,4 +26,19 @@ def index(request):
         request,
         'main/index.html',
         context
+    )
+
+
+def detail(request, album_id):
+    user: User = request.user
+    album: Album = Album.objects.get(
+        id=album_id
+    )
+    return render(
+        request,
+        'main/detail.html',
+        {
+            'album': album,
+            'user': user
+        }
     )
