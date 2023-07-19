@@ -10,7 +10,11 @@
                 <div class="col-sm-4 col-lg-2">
                     <div class="thumbnail">
                         <a href="{% url 'detail' album.id %}">
-                            <img src="{{ album.logo.url }}" class="img-responsive" />
+                            {% if album.logo %}
+                                <img src="{{ album.logo.url }}" class="img-responsive" />
+                            {% else %}
+                                <img src="media/default_cover.png" class="img-responsive" />
+                            {% endif %}
                         </a>
                     </div>
                 </div>

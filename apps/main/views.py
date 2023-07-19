@@ -3,8 +3,9 @@ from typing import Any
 
 # Django
 from django.contrib.auth.models import User
+from django.core.handlers.wsgi import WSGIRequest
 from django.db.models.query import QuerySet
-from django.http import HttpResponse
+from django.http.response import HttpResponse
 from django.shortcuts import render
 
 # Local
@@ -14,12 +15,15 @@ from .models import (
 )
 
 
-def index(request):
-    artists: QuerySet[Artist] = Artist.objects.all()
-    albums: QuerySet[Album] = Album.objects.all()
+def index(request: WSGIRequest) -> HttpResponse:
+    """index."""
 
+    # TODO: сделать так чтобы текущий
+    # юзер мог видеть только свои альбомы
+    # user: User = request.user
+    #
+    albums: QuerySet[Album] = Album.objects.all()
     context: dict[str, QuerySet[Any]] = {
-        'artists': artists,
         'albums': albums
     }
     return render(
@@ -29,16 +33,22 @@ def index(request):
     )
 
 
-def detail(request, album_id):
+def detail(
+    request: WSGIRequest,
+    album_id: int
+) -> HttpResponse:
+    """detail."""
+
     user: User = request.user
-    album: Album = Album.objects.get(
+    album: QuerySet[Album] = Album.objects.get(
         id=album_id
     )
+    context: dict[str, QuerySet[Any]] = {
+        'album': album,
+        'user': user
+    }
     return render(
         request,
         'main/detail.html',
-        {
-            'album': album,
-            'user': user
-        }
+        context
     )

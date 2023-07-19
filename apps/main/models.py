@@ -1,9 +1,6 @@
 # Python
 from typing import Any
 
-# Third party
-import mutagen
-
 # Django
 from django.contrib.auth.models import User
 from django.db import models
@@ -129,7 +126,8 @@ class Album(models.Model):
     )
     logo = models.ImageField(
         verbose_name='логотип',
-        upload_to='images/',
+        upload_to='album_covers/%Y/',
+        default='media/default_cover.png',
         null=True,
         blank=True
     )
@@ -182,7 +180,9 @@ class Song(models.Model):
         upload_to='songs/%Y/%m/%d/'
     )
     duration = models.PositiveSmallIntegerField(
-        verbose_name='длительность трека'
+        verbose_name='длительность трека',
+        null=True,
+        blank=True
     )
     genre = models.ManyToManyField(
         to=Genre,
@@ -199,12 +199,7 @@ class Song(models.Model):
 
     def save(self, *args: Any, **kwargs: Any) -> None:
 
-        # TODO: потом сделать через PostSave
-        #
-        mfile: mutagen.File = mutagen.File(
-            self.audio_file
-        )
-        self.duration = mfile.info.length
+        # TODO: сделать валидацию на аудио-файл
         super().save(*args, **kwargs)
 
     class Meta:
