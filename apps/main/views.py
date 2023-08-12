@@ -11,7 +11,8 @@ from django.shortcuts import render
 # Local
 from .models import (
     Album,
-    Artist
+    Artist,
+    Song
 )
 
 
@@ -23,8 +24,10 @@ def index(request: WSGIRequest) -> HttpResponse:
     # user: User = request.user
     #
     albums: QuerySet[Album] = Album.objects.all()
+    song: QuerySet[Song] = Song.objects.all()
     context: dict[str, QuerySet[Any]] = {
-        'albums': albums
+        'albums': albums,
+        'song': song
     }
     return render(
         request,

@@ -6,6 +6,7 @@
     <div class="row">
 
         {% if albums %}
+        {% for song in song %}
             {% for album in albums %}
                 <div class="col-sm-4 col-lg-2">
                     <div class="thumbnail">
@@ -15,10 +16,13 @@
                             {% else %}
                                 <img src="media/default_cover.png" class="img-responsive" />
                             {% endif %}
+                            <a href="">{{ song.duration }}</a>
+                            <a href="">{{song.audio_file}}</a>
                         </a>
                     </div>
                 </div>
             {% endfor %}
+        {% endfor %}
         {% endif %}
 
     </div>
